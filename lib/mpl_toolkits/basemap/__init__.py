@@ -4111,6 +4111,13 @@ class Basemap(object):
         # http://www.ngdc.noaa.gov/mgg/image/globalimages.html)
         elif image == "etopo":
             file = os.path.join(basemap_datadir,'etopo1.jpg')
+        # use a numpy[x,y,n] array as an image
+        # This is useful if the image needs to be pre-processed by the user, via PIL
+        elif type(image) == np.ndarray:
+            if len(image.shape) is not 3:
+                raise ImportError('Image array is not in [y,x,z] format')
+            raise ImportError('Found a numpy array')
+        # if all else fails, assume "image" is the file name to open
         else:
             file = image
         # if image is same as previous invocation, used cached data.
